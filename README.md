@@ -1,4 +1,3 @@
-# MathOCR
 
 Personal fork of [ScreenOCR](https://www.raycast.com/huzef44/screenocr)
 
