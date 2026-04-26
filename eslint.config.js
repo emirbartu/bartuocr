@@ -11,6 +11,14 @@ module.exports = defineConfig([
           extraFixedCaseWords: ["ScreenOCR"],
         },
       ],
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+          caughtErrorsIgnorePattern: "^_",
+        },
+      ],
     },
   },
 ]);

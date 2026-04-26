@@ -1,15 +1,15 @@
 {
   "$schema": "https://www.raycast.com/schemas/extension.json",
-  "name": "screenocr",
-  "title": "ScreenOCR",
-  "description": "Extract text from screen captures locally via OCR",
-  "icon": "command-icon.png",
-  "author": "huzef44",
+  "name": "mathocr",
+  "title": "MathOCR",
+  "description": "Multi-engine screen OCR with LaTeX output for math. Fork of ScreenOCR.",
+  "icon": "icon.png",
+  "author": "emirbartu",
   "contributors": [
-    "anwarulislam",
-    "xilopaint",
-    "pernielsentikaer",
-    "chrismessina"
+  ],
+  "categories": [
+    "Productivity",
+    "Developer Tools"
   ],
   "categories": [
     "Productivity"
@@ -165,6 +165,58 @@
       "type": "textfield",
       "required": false,
       "label": "Custom Words List"
+    },
+    {
+      "name": "ocrEngine",
+      "title": "OCR Engine",
+      "description": "Choose the OCR engine. VisionKit is built-in. CLIs need separate install. Ollama engines need locally running server.",
+      "type": "dropdown",
+      "required": true,
+      "default": "visionkit",
+      "data": [
+        {
+          "title": "Apple VisionKit (Built-in)",
+          "value": "visionkit"
+        },
+        {
+          "title": "Tesseract (Local CLI)",
+          "value": "tesseract"
+        },
+        {
+          "title": "PaddleOCR (uvx/Python)",
+          "value": "paddleocr"
+        },
+        {
+          "title": "GLM-OCR (Ollama)",
+          "value": "glmocr"
+        },
+        {
+          "title": "DeepSeek-OCR (Ollama)",
+          "value": "deepseekocr"
+        },
+        {
+          "title": "LaTeX-OCR / pix2tex (uvx/Python)",
+          "value": "pix2tex"
+        }
+      ]
+    },
+    {
+      "name": "ollamaEndpoint",
+      "title": "Ollama Endpoint",
+      "description": "URL of the Ollama server. Used only when Ollama engines are selected. Default: http://localhost:11434",
+      "type": "textfield",
+      "required": false,
+      "placeholder": "http://localhost:11434",
+      "default": "http://localhost:11434"
+    },
+    {
+      "name": "tesseractLanguages",
+      "title": "Tesseract Languages",
+      "description": "Language codes for Tesseract OCR (e.g., 'eng', 'eng+fra+deu'). Used only when Tesseract engine is selected.",
+      "type": "textfield",
+      "required": false,
+      "placeholder": "eng",
+      "default": "eng"
     }
   ],
   "commands": [
@@ -187,6 +239,18 @@
       "mode": "no-view"
     },
     {
+      "name": "recognize-text-math",
+      "title": "Recognize Math",
+      "description": "Detect math equations and LaTeX from the captured screen area",
+      "mode": "no-view"
+    },
+    {
+      "name": "recognize-text-math-fullscreen",
+      "title": "Recognize Math on Entire Screen",
+      "description": "Detect math equations and LaTeX from the entire screen",
+      "mode": "no-view"
+    },
+    {
       "name": "detect-barcode",
       "title": "Detect Barcode/QR Code",
       "description": "Detect barcodes and QR codes from the captured screen area",
@@ -196,6 +260,7 @@
   "dependencies": {
     "@raycast/api": "^1.100.3",
     "@raycast/utils": "^2.2.0",
+    "ollama": "^0.6.3",
     "raycast-cross-extension": "^0.2.3"
   },
   "devDependencies": {

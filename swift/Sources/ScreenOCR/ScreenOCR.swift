@@ -177,3 +177,40 @@ func randomPngPath() -> String {
   let uuid = UUID().uuidString
   return "\(tempDir)/\(uuid).png"
 }
+
+@raycast
+func captureImage(
+  fullscreen: Bool,
+  keepImage: Bool,
+  playSound: Bool
+) -> String {
+  let imgRef: CGImage?
+  if fullscreen {
+    imgRef = captureScreen(keepImage: keepImage)
+  } else {
+    imgRef = captureSelectedArea(keepImage: keepImage, playSound: playSound)
+  }
+
+  guard let capturedImage = imgRef else {
+    return ""
+  }
+
+  let filePath = randomPngPath()
+  let bitmapRep = NSBitmapImageRep(cgImage: capturedImage)
+  guard let pngData = bitmapRep.representation(using: .png, properties: [:]) else {
+    return ""
+  }
+
+  do {
+    try pngData.write(to: URL(fileURLWithPath: filePath))
+  } catch {
+    return ""
+  }
+
+  return filePath
+}
+
+@raycast
+func cleanupImage(path: String) -> Void {
+  try? FileManager.default.removeItem(atPath: path)
+}

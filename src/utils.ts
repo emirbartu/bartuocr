@@ -1,6 +1,8 @@
 import {
   recognizeText as recognizeTextSwift,
   detectBarcode as detectBarcodeSwift,
+  captureImage as _captureImageSwift,
+  cleanupImage as _cleanupImageSwift,
 } from "swift:../swift";
 import { getUserSelectedLanguages } from "./hooks";
 import { showToast, Toast, getPreferenceValues } from "@raycast/api";

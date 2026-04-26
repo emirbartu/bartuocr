@@ -19,6 +19,12 @@ Type: `string | null`
 
 The recognized text. Returns `null` if no text was detected.
 
+### `latex`
+
+Type: `string | null | undefined`
+
+The recognized LaTeX output from math-capable OCR engines. Only populated when using the "Recognize Math" command with an engine that supports LaTeX output (GLM-OCR, DeepSeek-OCR, PaddleOCR, pix2tex). Returns `null` if no math was detected, or `undefined` if the engine does not support LaTeX output.
+
 ### `error`
 
 Type: `string | undefined`
@@ -50,11 +56,14 @@ import { LaunchProps } from "@raycast/api";
 
 type OCRResult = {
   text: string | null;
+  latex?: string | null;
   error?: string;
 };
 
-export default function Command({ launchContext = {} }: LaunchProps<{ launchContext?: OCRResult }>) {
-  const { text, error } = launchContext;
+export default function Command({
+  launchContext = {},
+}: LaunchProps<{ launchContext?: OCRResult }>) {
+  const { text, latex, error } = launchContext;
 
   if (error) {
     // Handle error
@@ -63,6 +72,10 @@ export default function Command({ launchContext = {} }: LaunchProps<{ launchCont
 
   if (text) {
     // Use the recognized text
+  }
+
+  if (latex) {
+    // Use the LaTeX output (e.g., render with MathJax/KaTeX)
   }
 }
 ```

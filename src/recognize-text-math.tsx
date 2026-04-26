@@ -12,12 +12,20 @@ export default async function command() {
   const preference = getPreferenceValues<Preferences>();
   const engine = resolveEngineFromPreferences();
 
+  if (!engine.capabilities.latex) {
+    await showFailureToast(
+      `${engine.displayName} does not support math/LaTeX output. Switch to an engine with LaTeX support.`,
+      { title: "Engine not supported" },
+    );
+    return;
+  }
+
   let imagePath = "";
 
   try {
     if (engine.slug !== "visionkit") {
       imagePath = await captureImageSwift(
-        true,
+        false,
         preference.keepImage,
         Boolean(preference.playSound),
       );
@@ -30,19 +38,26 @@ export default async function command() {
       }
     }
 
-    const output = await engine.recognize(imagePath, { mode: "text" });
-    const recognizedText = output.text;
+    const output = await engine.recognize(imagePath, { mode: "math" });
 
-    if (!recognizedText) {
-      await showFailureToast("No text detected", { title: "No text detected" });
+    if (!output.text && !output.latex) {
+      await showFailureToast("No math content detected", {
+        title: "No math detected",
+      });
       return;
     }
 
-    await Clipboard.copy(recognizedText);
-    await showSuccessToast("Copied text to clipboard");
+    const clipboardContent = [output.text, output.latex]
+      .filter(Boolean)
+      .join("\n\n");
+
+    await Clipboard.copy(clipboardContent);
+    await showSuccessToast("Copied math to clipboard");
   } catch (e) {
     console.error(e);
-    await showFailureToast(e, { title: "Failed detecting text" });
+    const errorMessage =
+      e instanceof Error ? e.message : "Failed detecting math";
+    await showFailureToast(e, { title: errorMessage });
   } finally {
     if (imagePath && engine.slug !== "visionkit") {
       await cleanupImageSwift(imagePath);

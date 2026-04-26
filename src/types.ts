@@ -8,6 +8,7 @@ export type Language = {
 
 export type OCRResult = {
   text: string | null;
+  latex?: string | null;
   error?: string;
 };
 
