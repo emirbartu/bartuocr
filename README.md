@@ -7,14 +7,14 @@ The built-in Raycast screen OCR extension, but heavily modded for my daily math-
 
 **Multi-engine support.** The original only uses Apple VisionKit. This fork lets you pick from 6 OCR engines:
 
-| Engine | Type | Good for |
-|--------|------|----------|
-| Apple VisionKit | Built-in | Fast text, 17 languages, no setup |
-| Tesseract | CLI (`brew install tesseract`) | Text, 100+ languages |
-| PaddleOCR | Python via `uvx` | Text + formula → LaTeX |
-| GLM-OCR | Ollama (`ollama pull glm-ocr`) | Text + formula → LaTeX |
-| DeepSeek-OCR | Ollama (`ollama pull deepseek-ocr`) | Text + formula → LaTeX |
-| LaTeX-OCR / pix2tex | Python via `uvx` | LaTeX only, math formulas |
+| Engine | Type | Speed | Notes |
+|--------|------|-------|----------|
+| Apple VisionKit | Built-in | ⚡ instant | Fast text, 17 languages, no setup |
+| Tesseract | CLI (`brew install tesseract`) | 🚀 fast | Text, 100+ languages |
+| GLM-OCR| Ollama (`ollama pull glm-ocr`) | 🐢 ~1-10s | Text + formula → LaTeX <br> Faster than DeepSeek|
+| DeepSeek-OCR | Ollama (`ollama pull deepseek-ocr`) | 🐢 ~1-10s | Text + formula → LaTeX |
+| LaTeX-OCR / pix2tex | Python via `uvx` | 🐢 ~1-10s | LaTeX only, math formulas |
+| PaddleOCR | Python via `uvx` | — | ❌ **not working right now** |
 
 Pick the engine in Raycast preferences → `OCR Engine` dropdown.
 
@@ -26,8 +26,8 @@ Pick the engine in Raycast preferences → `OCR Engine` dropdown.
 
 ```bash
 # 1. Clone
-git clone https://github.com/emirbartu/screenocr
-cd screenocr
+git clone https://github.com/emirbartu/bartuocr
+cd bartuocr
 
 # 2. Install deps
 npm install
